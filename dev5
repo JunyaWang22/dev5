@@ -1,0 +1,85 @@
+# Auteur: Junya Wang
+# Date: Nov 16, 2023
+# Ce programme compte les fréquences relatives de chaque lettre dans un
+# extrait du texte de Rousseau et le présente par un histogramme
+import math
+texte = 'av'
+
+
+alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
+                "p","q","r","s","t","u","v","w","x","y","z"]
+
+def lettres(texte):
+    resultat=[]
+    for elem in texte:
+        if elem.isupper():
+            resultat.append(elem.lower())
+        elif elem  == "à":
+            resultat.append("a")
+        elif elem == "é":
+            resultat.append("e")
+        elif elem == "è":
+            resultat.append("e")
+        elif elem == "ë":
+            resultat.append("e")
+        elif elem == "ê":
+            resultat.append("e")
+        elif elem == "ç":
+            resultat.append("c")
+        elif elem == "&":
+            resultat.append("e")
+            resultat.append("t")
+        elif elem == "ï":
+            resultat.append("i")
+        elif elem == "î":
+            resultat.append("i")
+        elif elem == "ô":
+            resultat.append("o")        
+        elif elem.isalpha():
+            resultat.append(elem)
+    return resultat
+
+def testlettres():
+    assert lettres("aBêcà éôè & ëçîï") == ['a', 'b', 'e', 'c', 'a', 'e', 'o',
+                                           'e', 'e', 't', 'e', 'c', 'i', 'i']
+    assert lettres("") == []
+testlettres()
+
+def occurrences(texte):
+    occur = [0]*26
+    for fois in lettres(texte): # range (resultat)
+        for j in range (len(alphabet)):
+            if fois == alphabet [j]:
+                occur[j] += 1
+    return occur
+
+def testoccurrences():
+    assert occurrences("aBcà éè & ëçîï") == [2, 1, 2, 0, 4, 0, 0, 0, 2, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    assert occurrences("") == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+testoccurrences()
+
+def frequences(texte, norme):
+    intfreq = []
+    occurrence_max = max(occurrences(texte))
+    
+    for occur in occurrences(texte):   
+        intfreq.append(math.ceil(occur / occurrence_max * norme))
+    
+    return intfreq
+
+def testfrequences():
+    assert frequences("aBcà éè & ëçîï",2) == [1, 1, 1, 0, 2, 0, 0, 0, 1, 0, 0,
+                                  0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+testfrequences()
+
+def histogramme(texte, norme):
+    for i in range (len(alphabet)):
+        print(alphabet[i], "|", "#" * frequences(texte, norme)[i])
+
+def testhistogramme():
+    assert histogramme ("aBcà éè & ëçîï",2) == ("a|#\n b|#\n")
+testhistogramme()
+
+histogramme (texte,75)
