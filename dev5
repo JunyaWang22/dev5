@@ -3,8 +3,10 @@
 # Ce programme compte les fréquences relatives de chaque lettre dans un
 # extrait du texte de Rousseau et le présente par un histogramme
 import math
-texte = 'av'
 
+codeboot_org = 'https://raw.githubusercontent.com/codeboot-org/'
+path = codeboot_org + 'data/main/litterature/rousseau.txt'
+texte = read_file(path)
 
 alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o",
                 "p","q","r","s","t","u","v","w","x","y","z"]
